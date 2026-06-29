@@ -1,16 +1,17 @@
 # Virtual environment
 venv/
 
-# API Keys — NEVER upload this!
+# API Keys — NEVER upload!
 .env
+
+# Database
+data/careers.db
 
 # Python cache
 __pycache__/
 *.pyc
 *.pyo
-
-# Database
-data/careers.db
+*.pyd
 
 # VS Code
 .vscode/
@@ -18,3 +19,6 @@ data/careers.db
 # OS files
 .DS_Store
 Thumbs.db
+
+# Streamlit
+.streamlit/

@@ -10,7 +10,6 @@ st.set_page_config(
     layout="wide"
 )
 
-# ── CSS ───────────────────────────────────────────────────
 st.markdown("""
 <style>
     .stApp {
@@ -80,14 +79,6 @@ st.markdown("""
         margin: 16px 0;
         text-align: center;
     }
-    .stTextInput input {
-    background: rgba(255,255,255,0.05) !important;
-    border: 1px solid rgba(167,139,250,0.3) !important;
-    border-radius: 10px !important;
-    color: #ffffff !important;
-    caret-color: #ffffff !important;
-    -webkit-text-fill-color: #ffffff !important;
-}
     .warning-box {
         background: rgba(251,191,36,0.1);
         border: 1px solid rgba(251,191,36,0.3);
@@ -95,6 +86,67 @@ st.markdown("""
         padding: 20px;
         text-align: center;
         color: #fbbf24;
+    }
+
+    /* ── ALL inputs & textareas ── */
+    input,
+    textarea,
+    .stTextInput input,
+    .stTextArea textarea,
+    [data-baseweb="input"] input,
+    [data-baseweb="textarea"] textarea,
+    [data-baseweb="base-input"] input,
+    [data-baseweb="base-input"] textarea,
+    div[data-baseweb="base-input"] > input,
+    div[data-baseweb="base-input"] > textarea {
+        background: rgba(30,27,75,0.85) !important;
+        border: 1px solid rgba(167,139,250,0.4) !important;
+        border-radius: 10px !important;
+        color: #f1f5f9 !important;
+        -webkit-text-fill-color: #f1f5f9 !important;
+        caret-color: #c4b5fd !important;
+    }
+
+    /* ── Placeholder ── */
+    input::placeholder,
+    textarea::placeholder {
+        color: #7c6fad !important;
+        -webkit-text-fill-color: #7c6fad !important;
+        opacity: 1 !important;
+    }
+
+    /* ── BaseWeb wrappers ── */
+    [data-baseweb="input"],
+    [data-baseweb="base-input"],
+    [data-baseweb="textarea"] {
+        background: rgba(30,27,75,0.85) !important;
+        border: 1px solid rgba(167,139,250,0.4) !important;
+        border-radius: 10px !important;
+    }
+
+    /* ── Selectbox ── */
+    .stSelectbox > div > div {
+        background: rgba(30,27,75,0.85) !important;
+        border: 1px solid rgba(167,139,250,0.4) !important;
+        border-radius: 10px !important;
+        color: #f1f5f9 !important;
+        -webkit-text-fill-color: #f1f5f9 !important;
+    }
+
+    /* ── Widget labels ── */
+    label,
+    [data-testid="stWidgetLabel"],
+    [data-testid="stWidgetLabel"] p {
+        color: #c4b5fd !important;
+        font-weight: 600 !important;
+        -webkit-text-fill-color: #c4b5fd !important;
+    }
+
+    /* ── Headings ── */
+    h1, h2, h3, h4, h5, h6,
+    .stMarkdown h1, .stMarkdown h2, .stMarkdown h3 {
+        color: #e2e8f0 !important;
+        -webkit-text-fill-color: #e2e8f0 !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -109,12 +161,8 @@ if 'resume_text' not in st.session_state:
     st.markdown("""
     <div class="warning-box">
         <div style='font-size:2.5rem'>⚠️</div>
-        <div style='font-size:1.1rem; font-weight:700; margin:8px 0'>
-            Resume Not Found!
-        </div>
-        <div style='font-size:0.9rem; opacity:0.8'>
-            Please upload your resume first from the Resume page
-        </div>
+        <div style='font-size:1.1rem; font-weight:700; margin:8px 0'>Resume Not Found!</div>
+        <div style='font-size:0.9rem; opacity:0.8'>Please upload your resume first from the Resume page</div>
     </div>
     """, unsafe_allow_html=True)
     st.stop()
@@ -134,8 +182,6 @@ with col1:
 
     st.markdown('<div class="input-card">', unsafe_allow_html=True)
     st.markdown('<div class="section-label">📋 Job Description</div>', unsafe_allow_html=True)
-
-    # Use saved job description if available
     saved_jd = st.session_state.get('job_description', '')
     job_desc = st.text_area(
         "Job Description",
@@ -161,11 +207,8 @@ with col2:
     <div style='background:rgba(167,139,250,0.1);
     border:1px solid rgba(167,139,250,0.2);
     border-radius:12px; padding:16px; margin-top:8px;'>
-        <div style='color:#a78bfa; font-weight:700;
-        margin-bottom:10px;'>📄 Resume Status</div>
-        <div style='color:#34d399; font-size:0.9rem;'>
-            ✅ Resume loaded successfully
-        </div>
+        <div style='color:#a78bfa; font-weight:700; margin-bottom:10px;'>📄 Resume Status</div>
+        <div style='color:#34d399; font-size:0.9rem;'>✅ Resume loaded successfully</div>
         <div style='color:#9ca3af; font-size:0.8rem; margin-top:6px;'>
             {len(st.session_state.get('resume_skills', []))} skills detected
         </div>
@@ -197,19 +240,11 @@ if generate:
                 candidate_name
             )
 
-        st.markdown("""
-        <div class="success-banner">
-            ✅ Cover Letter Generated Successfully!
-        </div>
-        """, unsafe_allow_html=True)
-
-        st.markdown("### 📄 Your Cover Letter")
-        st.markdown(f'<div class="letter-box">{letter}</div>',
-                   unsafe_allow_html=True)
-
+        st.markdown('<div class="success-banner">✅ Cover Letter Generated Successfully!</div>', unsafe_allow_html=True)
+        st.markdown("<h3 style='color:#e2e8f0;-webkit-text-fill-color:#e2e8f0;'>📄 Your Cover Letter</h3>", unsafe_allow_html=True)
+        st.markdown(f'<div class="letter-box">{letter}</div>', unsafe_allow_html=True)
         st.markdown("<br>", unsafe_allow_html=True)
 
-        # Copy button
         col1, col2 = st.columns(2)
         with col1:
             st.download_button(
@@ -222,19 +257,17 @@ if generate:
         with col2:
             st.code(letter, language=None)
 
-        # Save to session
         st.session_state['cover_letter'] = letter
 
         st.markdown("""
-        <div style='background:linear-gradient(90deg, #7c3aed, #2563eb);
+        <div style='background:linear-gradient(90deg,#7c3aed,#2563eb);
         border-radius:16px; padding:24px; text-align:center;
         margin-top:24px; color:white;'>
             <div style='font-size:1.3rem; font-weight:800; margin-bottom:8px;'>
                 🎯 Cover Letter Ready!
             </div>
             <div style='opacity:0.85; font-size:0.9rem;'>
-                Now go to <b>Interview Questions</b> page
-                from sidebar to prepare for interviews →
+                Now go to <b>Interview Questions</b> page from sidebar to prepare for interviews →
             </div>
         </div>
         """, unsafe_allow_html=True)

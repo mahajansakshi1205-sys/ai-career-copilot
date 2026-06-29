@@ -1,0 +1,11 @@
+streamlit
+langchain
+langchain-openai
+openai
+pandas
+numpy
+plotly
+PyPDF2
+python-dotenv
+fastapi
+uvicorn

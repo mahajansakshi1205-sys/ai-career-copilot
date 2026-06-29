@@ -20,6 +20,7 @@ st.markdown("""
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
 
+    /* ── Page title ── */
     .page-title {
         font-size: 2.8rem;
         font-weight: 800;
@@ -33,6 +34,76 @@ st.markdown("""
         font-size: 1rem;
         margin-bottom: 2rem;
     }
+
+    /* ── Fix ALL headings (h1-h6) to be visible on dark bg ── */
+    h1, h2, h3, h4, h5, h6,
+    .stMarkdown h1, .stMarkdown h2, .stMarkdown h3,
+    .stMarkdown h4, .stMarkdown h5, .stMarkdown h6 {
+        color: #e2e8f0 !important;
+        -webkit-text-fill-color: #e2e8f0 !important;
+    }
+
+    /* ── Fix paragraph / label text ── */
+    p, .stMarkdown p {
+        color: #cbd5e1 !important;
+    }
+
+    /* ── Widget labels ── */
+    label,
+    [data-testid="stWidgetLabel"],
+    [data-testid="stWidgetLabel"] p {
+        color: #c4b5fd !important;
+        font-weight: 600 !important;
+        -webkit-text-fill-color: #c4b5fd !important;
+    }
+
+    /* ── ALL inputs & textareas (dark bg, light text) ── */
+    input,
+    textarea,
+    .stTextInput input,
+    .stTextArea textarea,
+    .stSelectbox input,
+    [data-baseweb="input"] input,
+    [data-baseweb="textarea"] textarea,
+    [data-baseweb="base-input"] input,
+    [data-baseweb="base-input"] textarea,
+    div[data-baseweb="base-input"] > input,
+    div[data-baseweb="base-input"] > textarea {
+        background: rgba(30,27,75,0.85) !important;
+        border: 1px solid rgba(167,139,250,0.4) !important;
+        border-radius: 10px !important;
+        color: #f1f5f9 !important;
+        -webkit-text-fill-color: #f1f5f9 !important;
+        caret-color: #c4b5fd !important;
+    }
+
+    /* ── Placeholder text ── */
+    input::placeholder,
+    textarea::placeholder {
+        color: #7c6fad !important;
+        -webkit-text-fill-color: #7c6fad !important;
+        opacity: 1 !important;
+    }
+
+    /* ── BaseWeb wrappers ── */
+    [data-baseweb="input"],
+    [data-baseweb="base-input"],
+    [data-baseweb="textarea"] {
+        background: rgba(30,27,75,0.85) !important;
+        border: 1px solid rgba(167,139,250,0.4) !important;
+        border-radius: 10px !important;
+    }
+
+    /* ── Selectbox ── */
+    .stSelectbox > div > div {
+        background: rgba(30,27,75,0.85) !important;
+        border: 1px solid rgba(167,139,250,0.4) !important;
+        border-radius: 10px !important;
+        color: #f1f5f9 !important;
+        -webkit-text-fill-color: #f1f5f9 !important;
+    }
+
+    /* ── Cards ── */
     .question-card {
         background: rgba(255,255,255,0.05);
         border: 1px solid rgba(255,255,255,0.1);
@@ -162,7 +233,6 @@ if generate:
             difficulty
         )
 
-    # Parse questions
     lines = result.strip().split('\n')
     technical_qs = []
     behavioral_qs = []
@@ -198,40 +268,31 @@ if 'technical_qs' in st.session_state:
         <div style='background:rgba(96,165,250,0.1);
         border:1px solid rgba(96,165,250,0.2);
         border-radius:12px; padding:16px; text-align:center;'>
-            <div style='font-size:1.8rem; font-weight:800;
-            color:#60a5fa;'>{len(technical_qs)}</div>
-            <div style='color:#9ca3af; font-size:0.8rem;'>
-                Technical Questions
-            </div>
+            <div style='font-size:1.8rem; font-weight:800; color:#60a5fa;'>{len(technical_qs)}</div>
+            <div style='color:#9ca3af; font-size:0.8rem;'>Technical Questions</div>
         </div>""", unsafe_allow_html=True)
     with col2:
         st.markdown(f"""
         <div style='background:rgba(251,146,60,0.1);
         border:1px solid rgba(251,146,60,0.2);
         border-radius:12px; padding:16px; text-align:center;'>
-            <div style='font-size:1.8rem; font-weight:800;
-            color:#fb923c;'>{len(behavioral_qs)}</div>
-            <div style='color:#9ca3af; font-size:0.8rem;'>
-                Behavioral Questions
-            </div>
+            <div style='font-size:1.8rem; font-weight:800; color:#fb923c;'>{len(behavioral_qs)}</div>
+            <div style='color:#9ca3af; font-size:0.8rem;'>Behavioral Questions</div>
         </div>""", unsafe_allow_html=True)
     with col3:
         st.markdown(f"""
         <div style='background:rgba(167,139,250,0.1);
         border:1px solid rgba(167,139,250,0.2);
         border-radius:12px; padding:16px; text-align:center;'>
-            <div style='font-size:1.8rem; font-weight:800;
-            color:#a78bfa;'>{len(technical_qs)+len(behavioral_qs)}</div>
-            <div style='color:#9ca3af; font-size:0.8rem;'>
-                Total Questions
-            </div>
+            <div style='font-size:1.8rem; font-weight:800; color:#a78bfa;'>{len(technical_qs)+len(behavioral_qs)}</div>
+            <div style='color:#9ca3af; font-size:0.8rem;'>Total Questions</div>
         </div>""", unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # Technical Questions
+    # Technical Questions — using HTML heading to avoid Streamlit black h3
     if technical_qs:
-        st.markdown("### 💻 Technical Questions")
+        st.markdown("<h3 style='color:#e2e8f0;-webkit-text-fill-color:#e2e8f0;'>💻 Technical Questions</h3>", unsafe_allow_html=True)
         for i, q in enumerate(technical_qs):
             st.markdown(f"""
             <div class="question-card">
@@ -245,11 +306,10 @@ if 'technical_qs' in st.session_state:
 
     # Behavioral Questions
     if behavioral_qs:
-        st.markdown("### 🤝 Behavioral Questions")
+        st.markdown("<h3 style='color:#e2e8f0;-webkit-text-fill-color:#e2e8f0;'>🤝 Behavioral Questions</h3>", unsafe_allow_html=True)
         for i, q in enumerate(behavioral_qs):
             st.markdown(f"""
-            <div class="question-card"
-            style="border-left-color:#fb923c;">
+            <div class="question-card" style="border-left-color:#fb923c;">
                 <div class="behav-badge">Behavioral</div>
                 <div class="question-num">Question {i+1}</div>
                 <div class="question-text">{q}</div>
@@ -259,7 +319,7 @@ if 'technical_qs' in st.session_state:
     st.markdown("---")
 
     # ── PRACTICE MODE ─────────────────────────────────────
-    st.markdown("### 🎯 Practice Mode — Get AI Feedback")
+    st.markdown("<h3 style='color:#e2e8f0;-webkit-text-fill-color:#e2e8f0;'>🎯 Practice Mode — Get AI Feedback</h3>", unsafe_allow_html=True)
     st.markdown('<p style="color:#9ca3af;">Pick a question, write your answer, get instant AI feedback!</p>', unsafe_allow_html=True)
 
     all_questions = technical_qs + behavioral_qs
@@ -292,7 +352,6 @@ if 'technical_qs' in st.session_state:
                     st.session_state.get('job_desc_for_eval', '')
                 )
 
-            # Parse feedback
             score = 0
             strengths = ""
             improvements = ""
@@ -311,7 +370,6 @@ if 'technical_qs' in st.session_state:
                 elif "IDEAL_ANSWER:" in line:
                     ideal = line.replace("IDEAL_ANSWER:", "").strip()
 
-            # Score color
             if score >= 8:
                 sc = "#34d399"
                 slabel = "Excellent! 🌟"
@@ -323,48 +381,36 @@ if 'technical_qs' in st.session_state:
                 slabel = "Needs Practice 📚"
 
             st.markdown("<br>", unsafe_allow_html=True)
-            st.markdown("### 📊 Your Feedback")
+            st.markdown("<h3 style='color:#e2e8f0;-webkit-text-fill-color:#e2e8f0;'>📊 Your Feedback</h3>", unsafe_allow_html=True)
 
             col1, col2, col3 = st.columns(3)
             with col1:
                 st.markdown(f"""
-                <div class="score-box"
-                style="background:rgba(0,0,0,0.3);
-                border:2px solid {sc};">
-                    <div style='font-size:2.5rem;
-                    font-weight:800; color:{sc};'>
-                        {score}/10
-                    </div>
-                    <div style='color:#9ca3af;
-                    font-size:0.85rem;'>{slabel}</div>
+                <div class="score-box" style="background:rgba(0,0,0,0.3);border:2px solid {sc};">
+                    <div style='font-size:2.5rem;font-weight:800;color:{sc};'>{score}/10</div>
+                    <div style='color:#9ca3af;font-size:0.85rem;'>{slabel}</div>
                 </div>""", unsafe_allow_html=True)
 
             col1, col2 = st.columns(2)
             with col1:
                 if strengths:
                     st.markdown(f"""
-                    <div class="feedback-box"
-                    style="border-left:4px solid #34d399;">
-                        <div style='color:#34d399; font-weight:700;
-                        margin-bottom:8px;'>✅ Strengths</div>
+                    <div class="feedback-box" style="border-left:4px solid #34d399;">
+                        <div style='color:#34d399;font-weight:700;margin-bottom:8px;'>✅ Strengths</div>
                         {strengths}
                     </div>""", unsafe_allow_html=True)
             with col2:
                 if improvements:
                     st.markdown(f"""
-                    <div class="feedback-box"
-                    style="border-left:4px solid #f87171;">
-                        <div style='color:#f87171; font-weight:700;
-                        margin-bottom:8px;'>📈 Improvements</div>
+                    <div class="feedback-box" style="border-left:4px solid #f87171;">
+                        <div style='color:#f87171;font-weight:700;margin-bottom:8px;'>📈 Improvements</div>
                         {improvements}
                     </div>""", unsafe_allow_html=True)
 
             if ideal:
                 st.markdown(f"""
-                <div class="feedback-box"
-                style="border-left:4px solid #a78bfa; margin-top:12px;">
-                    <div style='color:#a78bfa; font-weight:700;
-                    margin-bottom:8px;'>💡 Ideal Answer</div>
+                <div class="feedback-box" style="border-left:4px solid #a78bfa;margin-top:12px;">
+                    <div style='color:#a78bfa;font-weight:700;margin-bottom:8px;'>💡 Ideal Answer</div>
                     {ideal}
                 </div>""", unsafe_allow_html=True)
 
